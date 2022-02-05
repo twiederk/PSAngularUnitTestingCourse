@@ -21,4 +21,15 @@ describe('HeroComponent (shallow tests)', () => {
     expect(fixture.componentInstance.hero.name).toEqual('SuperDude');
   })
 
+  it('should render the hero id and name in an anchor tag', () => {
+    // arrange
+    fixture.componentInstance.hero = { id: 1, name: 'SuperDude', strength: 3};
+
+    // act
+    fixture.detectChanges()
+
+    // assert
+    expect(fixture.nativeElement.querySelector('a').textContent).toContain('SuperDude')
+  })
+
 })
