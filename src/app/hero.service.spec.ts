@@ -6,6 +6,7 @@ import {HttpClientTestingModule, HttpTestingController} from "@angular/common/ht
 describe('HeroService', () => {
   let mockMessageService: MessageService
   let httpTestingController: HttpTestingController
+  let heroService: HeroService
 
   beforeEach(() => {
     mockMessageService = jasmine.createSpyObj(['add'])
@@ -19,6 +20,21 @@ describe('HeroService', () => {
     })
 
     httpTestingController = TestBed.inject(HttpTestingController)
+    heroService = TestBed.inject(HeroService)
+  })
+
+  describe('getHero', () => {
+    it('should call get with the correct URL', () => {
+      // act
+      heroService.getHero(4).subscribe()
+      // heroService.getHero(4).subscribe(hero => expect(hero.id).tobe(4))
+
+      // assert
+      const req = httpTestingController.expectOne('api/heroes/4')
+      req.flush({id: 4, name: 'SuperDude', strength: 100})
+      expect(req.request.method).toBe('GET')
+      httpTestingController.verify()
+    })
   })
 
 
