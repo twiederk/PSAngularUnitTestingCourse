@@ -103,4 +103,21 @@ describe('HeroesComponent (deep tests)', () => {
     expect(heroText).toContain(name)
   });
 
+  it('should have the correct route for the first hero', () => {
+    // arrange
+    mockHeroService.getHeroes.and.returnValue(of(HEROES))
+    fixture.detectChanges()
+    const heroComponents = fixture.debugElement.queryAll(By.directive(HeroComponent))
+
+    let routerLink = heroComponents[0]
+      .query(By.directive(RouterLinkDirectiveStub))
+      .injector.get(RouterLinkDirectiveStub);
+
+    // act
+    heroComponents[0].query(By.css('a')).triggerEventHandler('click', null)
+
+    // assert
+    expect(routerLink.navigatedTo).toEqual('/detail/1')
+  });
+
 })
